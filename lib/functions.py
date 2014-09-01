@@ -17,9 +17,16 @@ import base64
 
 from os.path import expanduser
 
-# curl interface
+# curl data types
 def curl_get_json(url):
-    
+    return json.loads(curl_get(url))
+
+def curl_get_plain(url):
+    return curl_get(url)
+
+
+# Curl methods
+def curl_get(url):
     linkdata = get_linkdata()
     
     request = urllib2.Request( linkdata['url'] + url )
@@ -31,8 +38,7 @@ def curl_get_json(url):
     cnt = result.read()
     result.close()
     
-    return json.loads(cnt)
-    
+    return cnt
     
 # Credentials via manual input if not saved
 def get_linkdata():

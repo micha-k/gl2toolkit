@@ -12,11 +12,17 @@
 import lib.functions as func
 import json
 
+usage = "./gl2toolkit.py link (status|jvm|fields|tdump)"
+
 def show_status(arg):
     return status_for_url('/system');
 
 def show_jvmstatus(arg):
     return status_for_url('/system/jvm');
+    
+def show_threaddump(arg):
+    print func.curl_get_plain('/system/threaddump');
+    return 0;
   
 def show_fields(arg):
     return status_for_url('/system/fields');
@@ -34,7 +40,8 @@ def status_for_url(url):
 commands = {
     "status" : show_status,
     "jvm" : show_jvmstatus,
-    "fields" : show_fields
+    "fields" : show_fields,
+    "tdump" : show_threaddump
 }
 
 # Evaluate request
