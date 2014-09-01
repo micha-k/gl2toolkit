@@ -13,11 +13,11 @@ import sys
 
 import lib.functions
 import lib.mod_link
-import lib.mod_status
+import lib.mod_system
 
 modules = {
     "link" : lib.mod_link,
-    "status" : lib.mod_status
+    "system" : lib.mod_system
 }
 
 def print_modules():
