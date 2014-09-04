@@ -10,35 +10,37 @@
 #
 
 import json
-import urllib2
 import getpass
 import os
 import base64
+import httplib
 
 from os.path import expanduser
 
 # curl data types
 def curl_get_json(url):
-    return json.loads(curl_get(url))
+    return json.loads(curl_get(url)["data"])
 
 def curl_get_plain(url):
-    return curl_get(url)
+    return curl_get(url)["data"]
 
 
 # Curl methods
 def curl_get(url):
     linkdata = get_linkdata()
+    base64string = base64.encodestring('%s:%s' % (linkdata['user'], linkdata['passwd'])).replace('\n', '')    
     
-    request = urllib2.Request( linkdata['url'] + url )
-    base64string = base64.encodestring('%s:%s' % (linkdata['user'], linkdata['passwd'])).replace('\n', '')
-    request.add_header("Authorization", "Basic %s" % base64string)
-    request.get_method = lambda: 'GET'
+    conn = httplib.HTTPConnection( linkdata['host'], int(linkdata['port']) )
+    conn.putrequest("GET", url)
+    conn.putheader("Host", linkdata['host'])
+    conn.putheader("Authorization", "Basic %s" % base64string)
+    conn.endheaders()
+    conn.send("")
     
-    result = urllib2.urlopen(request)
-    cnt = result.read()
-    result.close()
+    response = conn.getresponse()
+    res_dict = { "status" : response.status , "reason" : response.reason , "data" : response.read() }
     
-    return cnt
+    return res_dict
     
 # Credentials via manual input if not saved
 def get_linkdata():
@@ -53,11 +55,12 @@ def get_linkdata():
 
 # Query linkdata on commandline 
 def read_link_data():
-    url = raw_input("Graylog connection url: ")
+    host = raw_input("Graylog host: ")
+    port = raw_input("Graylog api port: ")
     user = raw_input("Username: ")
     passwd = getpass.getpass("Password (no visible output ): ")
     
-    linkdata = { "url" : url, "user" : user, "passwd" : passwd }
+    linkdata = { "host" : host, "port" : port, "user" : user, "passwd" : passwd }
     
     return linkdata
 
@@ -70,3 +73,4 @@ def print_json_nosort(data):
     
 def print_json_nice(data):
     print json.dumps(data, indent=4, sort_keys=True)
+    
