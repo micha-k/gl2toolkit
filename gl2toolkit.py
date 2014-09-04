@@ -11,7 +11,7 @@
 
 import sys
 
-import lib.functions
+import lib.functions as func
 import lib.mod_link
 import lib.mod_system
 import lib.mod_user
@@ -26,6 +26,8 @@ def print_modules():
     print "Valid major commands are:"
     for module in modules:
         print module
+    
+    print "info"
 
 def main(arg):
     
@@ -34,13 +36,17 @@ def main(arg):
         rc = 0
     else: 
         (self, modul) = arg[:2]
-        try:
-            rc = modules[modul].eval(arg)
-        except KeyError:
-            print "Invalid major command:", modul
-            rc = 1
-            print
-            print_modules()
+        if modul != "info":
+            try:
+                rc = modules[modul].eval(arg)
+            except KeyError:
+                print "Invalid major command:", modul
+                rc = 1
+                print
+                print_modules()
+        else:
+            func.print_json_nice( func.get_version_info() )
+            rc=0
     
     sys.exit(rc)
 

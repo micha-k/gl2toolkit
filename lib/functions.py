@@ -77,6 +77,12 @@ def get_linkdata():
     else:
         return read_link_data()
 
+def get_version_info():
+    if os.access("version.json", os.R_OK):
+        with open("version.json") as data_file:    
+            data = json.load(data_file)
+            return data
+
 # Query linkdata on commandline 
 def read_link_data():
     host = raw_input("Graylog host: ")

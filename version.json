@@ -1,0 +1,1 @@
+{ "project" : "gl2toolkit", "desc" : "Console toolkit for graylog2", "version" : "0.1.0", "tested-with-gl2" : "0.20.2", "url" : "https://github.com/micha-k/gl2toolkit", "license" : "MIT", "developer" : "micha-k"}
