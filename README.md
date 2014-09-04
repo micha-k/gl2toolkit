@@ -23,11 +23,26 @@ Displaying several info sets about the current graylog system status.
 ### User management
 Several tools for user related information and privilege management.
 
+User listing and dumping:
+
 * ./gl2toolkit.py user list - Dump overview of registered users (formatted text)
 * ./gl2toolkit.py user fulldump <USER ID OR NAME> - Dump user details (json)
-* ./gl2toolkit.py user permdump <USER ID OR NAME> streamonly - Dump all stream-related permissions assigned to user (json)
+* ./gl2toolkit.py user permdump <USER ID OR NAME> - Dump all permissions assigned to user (json)
+
+
+Permission listing:
+
 * ./gl2toolkit.py user permdump <USER ID OR NAME> streamonly - Dump all stream related permissions assigned to user (json)
 * ./gl2toolkit.py user permdump <USER ID OR NAME> dashonly - Dump all dashboard related permissions assigned to user (json)
+* ./gl2toolkit.py user permdump <USER ID OR NAME> streamdash - Dump all dashboard and stream related permissions assigned to user (json)
+
+Permission copying:
+
+* ./gl2toolkit.py user copyperm <USERNAME SRC> <USERNAME DST> - Copy all stream and dashboard permissions from src to dst user (mixed)
+* ./gl2toolkit.py user copyperm <USERNAME SRC> <USERNAME DST> streamonly - Copy all stream permissions from src to dst user (mixed)
+* ./gl2toolkit.py user copyperm <USERNAME SRC> <USERNAME DST> dashonly - Copy all dashboard permissions from src to dst user (mixed)
+* ./gl2toolkit.py user copyperm <USERNAME SRC> <USERNAME DST> streamdash - Copy all stream and dashboard permissions from src to dst user (mixed)
+
 
 ## Planned Features
 * Some more failure tolerane

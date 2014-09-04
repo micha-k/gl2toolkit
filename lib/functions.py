@@ -14,6 +14,7 @@ import getpass
 import os
 import base64
 import httplib
+import urllib
 
 from os.path import expanduser
 
@@ -32,8 +33,8 @@ def curl_get(url):
     
     conn = httplib.HTTPConnection( linkdata['host'], int(linkdata['port']) )
     conn.putrequest("GET", url)
-    conn.putheader("Host", linkdata['host'])
     conn.putheader("Authorization", "Basic %s" % base64string)
+    conn.putheader("User-Agent", "gl2toolkit/1")
     conn.endheaders()
     conn.send("")
     
@@ -41,6 +42,29 @@ def curl_get(url):
     res_dict = { "status" : response.status , "reason" : response.reason , "data" : response.read() }
     
     return res_dict
+    
+def curl_put(url, body):
+    linkdata = get_linkdata()
+    bodyString = json.dumps(body)
+    base64string = base64.encodestring('%s:%s' % (linkdata['user'], linkdata['passwd'])).replace('\n', '')    
+    
+    conn = httplib.HTTPConnection( linkdata['host'], int(linkdata['port']) )
+        
+    conn.putrequest("PUT", url)
+    conn.putheader("Authorization", "Basic %s" % base64string)
+    conn.putheader("Content-Type", 'application/json; charset=utf-8')
+    conn.putheader("Accept", "application/json")
+    conn.putheader("Accept-Charset", "utf-8")
+    conn.putheader("User-Agent", "gl2toolkit/1")
+    conn.putheader("Content-Length",len(bodyString))
+    conn.endheaders( bodyString )
+    conn.send("")
+    
+    response = conn.getresponse()
+    res_dict = { "status" : response.status , "reason" : response.reason}
+    
+    return res_dict
+    
     
 # Credentials via manual input if not saved
 def get_linkdata():

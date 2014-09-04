@@ -12,7 +12,6 @@
 import lib.functions as func
 import json
 
-
 usage = "./gl2toolkit.py user list|fulldump|permdump|copyperm"
 
 def list_users(arg):
@@ -57,8 +56,33 @@ def show_permdump(arg):
 
 def copy_perm(arg):
     usage = "./gl2toolkit.py user copyperm <username src> <username dst> (streamonly|dashonly)"
-    return 0
     
+    if len(arg) > 4:
+        selector = "streamdash"
+        user_src = get_user(arg[3])
+        user_dst = arg[4]
+        
+        if len(arg) > 5:
+            selector = arg[5]
+        
+        if selector != "streamonly" and selector != "dashonly":
+            selector = "streamdash"    
+            
+        filtered_perm = { "permissions" : filter_permissions(user_src, selector) }
+        
+        print "User src: " + user_src['username']
+        print "User dest: " + user_dst
+        func.print_json_nice(filtered_perm)
+        
+        res = func.curl_put('/users/'+ user_dst.strip() +'/permissions', filtered_perm )
+        func.print_json_oneline(res)
+        
+        if res['status'] == 400:
+            return 1
+        else:
+            return 0
+    else:
+        return 1
 
 # Internal functions
 def get_user(param):
