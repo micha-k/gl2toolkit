@@ -38,7 +38,7 @@ def show_fulldump(arg):
         return 1
 
 def show_permdump(arg):
-    usage = "./gl2toolkit.py user permdump <username>|<id> (streamonly|dashonly)"
+    usage = "./gl2toolkit.py user permdump <username>|<id> (streamonly|dashonly|streamdash)"
     
     if len(arg) > 3:
         param = arg[3]
@@ -56,6 +56,7 @@ def show_permdump(arg):
         return 1
 
 def copy_perm(arg):
+    usage = "./gl2toolkit.py user copyperm <username src> <username dst> (streamonly|dashonly)"
     return 0
     
 
@@ -69,12 +70,12 @@ def get_user(param):
 def filter_permissions(userData, filter):
     fperm = []
     
-    if filter == "streamonly" or filter == "dashonly":
+    if filter == "streamonly" or filter == "dashonly" or filter == "streamdash":
         for perm in userData['permissions']:
-            if filter == "streamonly" and perm.startswith('streams:'):
+            if (filter == "streamonly" or filter == "streamdash") and perm.startswith('streams:'):
                 fperm.append(perm)
-            if filter == "dashonly" and perm.startswith('dashboards:'):
-                fperm.append(perm)
+            if (filter == "dashonly" or filter == "streamdash") and perm.startswith('dashboards:'):
+                fperm.append(perm)        
     else:
         fperm = userData['permissions']
     
