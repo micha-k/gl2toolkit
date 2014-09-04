@@ -5,7 +5,6 @@ The script gl2toolkit is a private and hobby project. I'm using graylog2 in a pr
 ### General
 A list of all main commands is supplied to you when calling the script without any arguments, e.g.: ./gl2toolkit.py. For any main command you can get all subcommands by calling it without one, e.g.: ./gl2toolkit.py system
 
-
 ### Graylog link data
 Persist the connection data to your graylog. Connection data is saved in a file ~/.gl2t_linkdata.
 
@@ -19,7 +18,22 @@ Displaying several info sets about the current graylog system status.
 * ./gl2toolkit.py system status - Display basic graylog information (json)
 * ./gl2toolkit.py system jvm - Display basic java jvm stats (json)
 * ./gl2toolkit.py system fields - Listing all fields that are available in your indices (json)
-* ./gl2toolkit.py system tdump - Printing a java thread dump (plaintext)
+* ./gl2toolkit.py system tdump - Printing a java thread dump (plain text)
+
+### User management
+Several tools for user related information and privilege management.
+
+* ./gl2toolkit.py user list - Dump overview of registered users (formatted text)
+* ./gl2toolkit.py user fulldump <USER ID OR NAME> - Dump user details (json)
+* ./gl2toolkit.py user permdump <USER ID OR NAME> streamonly - Dump all stream-related permissions assigned to user (json)
+* ./gl2toolkit.py user permdump <USER ID OR NAME> streamonly - Dump all stream related permissions assigned to user (json)
+* ./gl2toolkit.py user permdump <USER ID OR NAME> dashonly - Dump all dashboard related permissions assigned to user (json)
+
+## Planned Features
+* Some more failure tolerane
+* More system feedback and checks
+* Reporting and "inventory" feature
+* simple export and archiving feature
 
 ## Contact
 Please feel free to contact me at: dev AT michaelkessel DOT de

@@ -14,10 +14,12 @@ import sys
 import lib.functions
 import lib.mod_link
 import lib.mod_system
+import lib.mod_user
 
 modules = {
     "link" : lib.mod_link,
-    "system" : lib.mod_system
+    "system" : lib.mod_system,
+    "user" : lib.mod_user
 }
 
 def print_modules():
