@@ -45,7 +45,7 @@ Permission copying:
 
 
 ## Planned Features
-* Some more failure tolerane
+* Some more failure tolerance
 * More system feedback and checks
 * Reporting and "inventory" feature
 * simple export and archiving feature
